@@ -1,0 +1,36 @@
+安装方法：
+
+1. 下载tar.gz包 解压到某一目录下，将conf/zoo_sample.cfg 复制一份到当前目录 zoo.cfg
+2. 修改zoo.cfg
+
+#时间单位，毫秒
+tickTime=2000     
+#文件存储位置
+dataDir=/home/myname/zookeeper
+#客户端连接服务端的端口
+clientPort=2181
+#初始化同步时间限制，值为 n*tickTime 
+initLimit=5
+#运行时节点间（leader \ follower）数据通讯时间限制
+syncLimit=2
+
+#集群内的所有节点
+server.1=192.168.229.160:2888:3888
+server.2=192.168.229.161:2888:3888
+server.3=192.168.229.162:2888:3888
+
+server[节点id]=[机器地址或名字]:[zookeeper服务通讯时使用]:[选举leader时使用]
+
+3. 在zoo.cfg 中配置的dataDir目录中建立myid文件，文件内容为本节点的id
+
+4. 修改日志配置
+修改zookeeper/bin/zkEnv.sh中
+ZOO_LOG_DIR="/home/u/zookeeper/log" 
+ZOO_LOG4J_PROP="INFO,ROLLINGFILE"
+
+修改zookeeper/conf/log4j.properties中
+zookeeper.root.logger=INFO,ROLLINGFILE
+
+5. 启动 、连接zk
+zkServer.sh start \ status \ stop
+zkCli.sh [-server ip:2181,ip2:2181]
